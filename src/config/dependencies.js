@@ -1,7 +1,7 @@
 import AccountsRepositoryInMemory from '../accounts/repositories/in-memory/AccountRepository';
 import AccountsRepositoryMongo from '../accounts/repositories/mongo/AccountRepository';
 import AccountValidators from '../accounts/validators';
-import Authenticator from '../accounts/security/simple';
+import Authenticator from './../accounts/security/bcrypt';
 
 const buildDependencies = () => {
   const dependencies = {

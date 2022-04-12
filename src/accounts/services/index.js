@@ -9,7 +9,8 @@ export default {
   getGenres: (genresId, { accountsRepository }) => {
     return accountsRepository.get(genresId);
   },
-  registerAccount: async (firstName, lastName, email, password, { accountsRepository }) => {
+  registerAccount: async (firstName, lastName, email, password, { accountsRepository, authenticator }) => {
+    password = await authenticator.encrypt(password);
     const account = new Account(undefined, firstName, lastName, email, password);
     return accountsRepository.persist(account);
   },
