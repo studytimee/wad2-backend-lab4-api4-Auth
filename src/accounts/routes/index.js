@@ -1,12 +1,22 @@
 import express from 'express';
 import AccountsController from '../controllers';
 import ValidationController from '../controllers/ValidationController'; //add to import statements at top of file
+import MoviesController from '../../movies/controllers';
 
 const createRouter = (dependencies) => {
     const router = express.Router();
     // load controller with dependencies
     const accountsController = AccountsController(dependencies);
     const validationController = ValidationController(dependencies);
+    const moviesController = MoviesController(dependencies);
+
+
+    // router.route('/*')
+    //     .all(accountsController.verifyToken); //ADD THIS: require token for all routes
+
+    // router.route('/')
+    //     .get(accountsController.verifyToken, moviesController.find); //ADD THIS: require token for all routes
+
 
     // router.route('/')
     //     .post(accountsController.createAccount);
@@ -27,7 +37,7 @@ const createRouter = (dependencies) => {
 
     router.route('/:id/favourites')
         .post(accountsController.addFavourite);
-        
+
     router.route('/:id/favourites')
         .get(accountsController.getFavourites);
 

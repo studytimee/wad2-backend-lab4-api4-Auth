@@ -2,6 +2,25 @@ import accountService from "../services";
 
 export default (dependencies) => {
 
+    const verifyToken = async (request, response, next) => {
+        try { 
+        // Input
+        const authHeader = request.headers.authorization;
+
+        // Treatment
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            response.status(403).json({message:"Forbidden under treatment"});
+        }
+        const accessToken = authHeader.split(" ")[1];
+        await accountService.verifyToken(accessToken, dependencies);
+        //output
+        next();
+    }catch(err){
+        //Token Verification Failed
+        next(new Error(`Verification Failed ${err.message}`));
+        }
+    };
+
     const createGenres = async (request, response, next) => {
         // Input
         const { id, name } = request.body;
@@ -78,6 +97,8 @@ export default (dependencies) => {
         }
     };
 
+    
+
 
     return {
         createAccount,
@@ -87,7 +108,8 @@ export default (dependencies) => {
         addFavourite,
         getFavourites,
         createGenres,
-        getGenres
+        getGenres,
+        verifyToken
 
 
     };
